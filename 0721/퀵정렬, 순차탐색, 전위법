@@ -1,0 +1,195 @@
+[quicksort]-배열
+#include <stdio.h>
+#include <stdlib.h>
+
+void show();
+void quicksort(int* arr, int start, int end);
+
+int main() {
+	int arr[8] = {8, 1, 2, 5, 4, 6, 7, 3};
+	show(arr);
+	quicksort(arr, 0, 7);
+	show(arr);
+
+	return 0;
+}
+void show(int* arr) {
+	for (int i = 0; i < 8; i++) {
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+}
+
+void quicksort(int* arr, int start, int end) {
+	int key = arr[start];//8이 key( {8, 1, 2, 5, 4, 6, 7, 3}
+	int st = start;
+	int ed = end;
+	int tmp;//임시저장변수
+
+	if (st >= ed)return;
+	while (st < ed) {
+		while ((key > arr[st]) && (st <= ed))st++;
+		while ((key < arr[ed]) && (st <= ed))ed--;
+		if (st < ed) {
+			tmp = arr[st];
+			arr[st] = arr[ed];
+			arr[ed] = tmp;
+		}
+	}
+	//재귀함수로 호출
+	quicksort(arr, start, st - 1); //전반부
+	quicksort(arr, st + 1, end);// 후반부
+
+}
+
+[순차탐색]
+#include <stdio.h>
+#include <stdlib.h>
+
+void show(int* arr);
+
+int main() {
+	
+	int arr[10] = { 9, 1, 2, 5 ,6 ,3, 7 ,8, 4 ,10 };
+
+	int fdata;
+	int index = 0;
+        show(arr);
+	printf("찾는 데이터 :");
+	scanf("%d", &fdata);
+
+	for (int i = 0; i < 10; i++) {
+		if (fdata == arr[i]) {
+			index = i;
+			break;
+		}
+	}
+	printf("찾으시는 데이터 %d는 %d번째에 있습니다.\n", arr[index], index + 1);
+	return 0;
+}
+void show(int* arr) {
+	for (int i = 0; i < 10; i++) {
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+}
+
+[전진이동법]
+int move(int* arr, int find) {
+	int i, k;
+	int index;
+	for (i = 0; i < 10; i++) {
+		if (find == arr[i]) {
+			index = i;
+			if (i == 0)break;
+			else {
+				for (k = index; k < 0; k--) {
+					arr[k] = arr[k - 1];
+				}
+				arr[0] = find;
+				break;
+			}
+		}
+	if (i == 10) {
+			printf("no data\n");
+			return -1;
+		}
+		else return index + 1;
+	}
+}
+
+[전위법]-list
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct list {
+	int data;
+	struct list* link;
+	struct list* prelink;
+}node;
+
+node* head = NULL;
+node* tail = NULL;
+node* inithead();
+void search(int fdata);
+void addnode(int data);
+void show();
+
+int main() {
+	head = inithead();
+
+	addnode(2);
+	addnode(5);
+	addnode(8);
+	addnode(3);
+	addnode(6);
+	addnode(1);
+	addnode(4);
+	addnode(7);
+	show();
+	printf("\n");
+	search(6);
+	show();
+	printf("\n");
+	search(6);
+	show();
+	printf("\n");
+	return 0;
+}
+
+void show() {
+	node* view = head->link;
+	while (view != NULL) {
+		printf("%d ", view->data);
+		view = view->link;
+	}
+}
+node* inithead() {
+	node* tmp = (node*)malloc(sizeof(node));
+	tmp->data = 0;
+	tmp->link = NULL;
+	tmp->prelink = NULL;
+	return tmp;
+}
+void addnode(int data) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* now = head;
+	newnode->data = data;
+	while (now->link != NULL)now = now->link;
+	now->link = newnode;
+	newnode->prelink = now;
+	newnode->link = NULL;
+	tail = newnode;
+}
+void search(int fdata) {
+	node* pre=NULL;
+	node* fnode = head;
+	int cnt = 0;
+	while (fnode->link != NULL) {
+		if (fnode->data == fdata)
+			break;
+		fnode = fnode->link;
+		cnt++;//break문 뒤에 와야함
+	}
+	printf("찾는 데이터 %d는 %d번째있습니다.\n", fnode->data, cnt);
+	pre = fnode->prelink;
+	pre->link = fnode->link;
+	fnode->link = pre;
+	fnode->prelink = pre->prelink;
+	pre->prelink = fnode;
+	fnode->prelink->link = fnode;
+	pre->link->prelink = pre;
+}
+
+
+[숙제-퀵정렬을 리스트로 바꾸기]
+
+[숙제]
+헬스장관리시스템
+
+멤버변수: 이름, 성별, 폰번호, 직업, 금액
+
+메뉴 : 1. 회원등록 2. 모든회원보기-오름차순(정렬) 3. 회원검색(이름)및 보기 4. 조건별 검색(성/성별) 0.종료
+
+비교함수:strcmp(char* str, char* str1); -성별검색
+strncmp(char* str, char* str1, int n); -성검색
