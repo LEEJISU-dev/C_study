@@ -1,0 +1,77 @@
+[tree]
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct tree {
+	char data;
+	struct tree* par;
+	struct tree* bro;
+	struct tree* chi;
+}tree;
+
+tree* root = NULL;
+tree* initroot();
+tree* addtree(tree* par, char data);
+void showtree(tree* n);//재귀호출함수
+
+int main() {
+	tree* newtree[10];
+	root = initroot();
+	newtree[0] = addtree(root, 'B');
+	newtree[1] = addtree(root, 'C');
+	newtree[2] = addtree(root, 'D');
+	newtree[3] = addtree(newtree[0], 'E');
+	newtree[4] = addtree(newtree[0], 'F');
+	newtree[5] = addtree(newtree[1], 'G');
+	newtree[6] = addtree(newtree[2], 'H');
+	newtree[7] = addtree(newtree[2], 'I');
+
+	showtree(root);
+
+	return 0;
+}
+
+
+tree* initroot() {
+	tree* tmp = (tree*)malloc(sizeof(tree));
+	tmp->data = 'A';
+	tmp->par = NULL;
+	tmp->bro = NULL;
+	tmp->chi = NULL;
+	return tmp;
+}
+tree* addtree(tree* par, char data) {
+	tree* newtree= (tree*)malloc(sizeof(tree));
+	tree* move = par;
+
+	if (move->chi == NULL) {
+		move->chi = newtree;
+		newtree->par = move;
+	}
+	else {
+		move = move->chi;
+		while (move->bro != NULL) {
+			move = move->bro;
+		}
+		move->bro = newtree;
+		newtree->par = move->par;
+	}
+	newtree->data = data;
+	newtree->chi = NULL;
+	newtree->bro = NULL;
+	return newtree;
+}
+void showtree(tree* n) {
+
+	printf("%c\n", n->data);//전위
+	if (n->chi != NULL) showtree(n->chi);//재귀호출함수
+        //printf("%c\n", n->data);//중위
+	if (n->bro != NULL) showtree(n->bro);//재귀호출함수
+        //printf("%c\n", n->data);//후위
+}
+
+[tree]- void형식(부모찾는 함수먼저 만들기)-순회변형
+1. 등록- 부모 데이터 : 
+         자식 데이터 : 
+2. 보기 -전위/중위/후위
