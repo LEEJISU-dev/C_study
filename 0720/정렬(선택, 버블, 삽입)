@@ -1,0 +1,295 @@
+[선택 정렬]
+#include <stdio.h>
+#include <stdlib.h>
+
+void showarr(int* arr);
+void selectsort(int* arr);
+
+int main() {
+	int arr[8] = { 8, 3, 4, 7, 1, 6, 5, 2 };
+	showarr(arr);
+	selectsort(arr);
+	showarr(arr);
+
+	return 0;
+}
+void showarr(int* arr) {
+	for (int i =0 ; i < 8; i++) {
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+}
+void selectsort(int* arr) {//중첩사용
+	int i, j;
+	int tmp;
+	for (i = 0; i < 8; i++) {
+		for (j = i + 1; j < 8; j++) {
+			if (arr[i] > arr[j]) {//i가 j보다 크게되면 바꿈
+				tmp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = tmp;
+			}
+		}
+	}
+}
+
+[버블정렬]
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void showarr(int* arr);
+void bubblesort(int* arr);
+
+int main() {
+	int arr[8] = { 8, 3, 4, 7, 1, 6, 5, 2 };
+	showarr(arr);
+	bubblesort(arr);
+	showarr(arr);
+
+	return 0;
+}
+void showarr(int* arr) {
+	for (int i =0 ; i < 8; i++) {
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+}
+void bubblesort(int* arr) {
+	int i, j;
+	int tmp;
+	for (i = 0; i < 8; i++) {
+		for (j = 0; j < 7-i; j++) {
+			if (arr[j] > arr[j+1]) {
+				tmp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = tmp;
+			}
+		}
+	}
+}
+
+[삽입정렬]
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void showarr(int* arr);
+void insertsort(int* arr);
+
+int main() {
+	int arr[8] = { 8, 3, 4, 7, 1, 6, 5, 2 };
+	showarr(arr);
+	insertsort(arr);
+	showarr(arr);
+
+	return 0;
+}
+
+void showarr(int* arr) {
+	for (int i =0 ; i < 8; i++) {
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+}
+
+void insertsort(int* arr) {
+	int i, j, k;
+	int tmp;
+	for (i = 0; i <8 ; i++) {
+		for (j = 0; j<i;j++) {
+			if (arr[i]<arr[j]) {//앞에서부터 비교
+				tmp = arr[i];
+				for (k = 1; k > j; k--) {//밀어주는 작업
+					arr[k] = arr[k - 1];
+				}
+				arr[j ] = tmp;//밀었던 위치에 tmp를 넣음
+			}
+		}
+	}
+}
+
+[선택정렬-리스트]
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct list {
+	int data;
+	struct list* link;
+
+}node;
+
+node* head = NULL;
+node* tail = NULL;
+node* inithead();
+void show();
+void addnode(int data);
+void selectsort(node* n);
+
+
+int main() {
+	head = inithead();
+	
+	addnode(5);
+	addnode(2);
+	addnode(7);
+	addnode(3);
+	addnode(6);
+	addnode(1);
+	addnode(8);
+	addnode(4);
+
+	selectsort(head);
+	show();
+
+	return 0;
+}
+node* inithead() {
+	node* tmp = (node*)malloc(sizeof(node));
+	tmp->data = 0;
+	tmp->link = NULL;
+	return tmp;
+}
+
+void show() {
+	node* view = head->link;
+	while (view != NULL) {
+		printf("%d ", view->data);
+		view = view->link;
+	}
+}
+void addnode(int data) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* now = head;
+	while (now->link != NULL) {
+		now = now->link;
+	}
+	now->link = newnode;
+	newnode->link = NULL;
+	newnode->data = data;
+	tail = newnode;
+}
+void selectsort(node* n) {
+	node* std = n->link;//key
+	node* cmp = NULL;//key와 비교
+	int tmp;
+	while (std != NULL) {
+		cmp = std->link;
+		while (cmp != NULL) {
+			if (std->data > cmp->data) {
+				tmp = std->data;
+				std->data = cmp->data;
+				cmp->data = tmp;
+			}
+			cmp = cmp->link;
+		}
+		std = std->link;
+	}
+}
+
+[버블정렬 - 리스트]
+
+[숙제]-버블정렬, 삽입정렬 리스트로 구현하기
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct list {
+	int data;
+	struct list* link;
+
+}node;
+
+node* head = NULL;
+node* tail = NULL;
+node* inithead();
+void show();
+void addnode(int data);
+void selectsort(node* n);
+void bubblesort(node* n);
+void insertsort(node* n);
+
+int main() {
+	head = inithead();
+	
+	addnode(5);
+	addnode(2);
+	addnode(7);
+	addnode(3);
+	addnode(6);
+	addnode(1);
+	addnode(8);
+	addnode(4);
+
+	selectsort(head);
+	show();
+
+	bubblesort(head);
+	show();
+
+	return 0;
+}
+node* inithead() {
+	node* tmp = (node*)malloc(sizeof(node));
+	tmp->data = 0;
+	tmp->link = NULL;
+	return tmp;
+}
+
+void show() {
+	node* view = head->link;
+	while (view != NULL) {
+		printf("%d ", view->data);
+		view = view->link;
+	}
+}
+void addnode(int data) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* now = head;
+	while (now->link != NULL) {
+		now = now->link;
+	}
+	now->link = newnode;
+	newnode->link = NULL;
+	newnode->data = data;
+	tail = newnode;
+}
+void selectsort(node* n) {
+	node* std = n->link;
+	node* cmp = NULL;
+	int tmp;
+	while (std != NULL) {
+		cmp = std->link;
+		while (cmp != NULL) {
+			if (std->data > cmp->data) {
+				tmp = std->data;
+				std->data = cmp->data;
+				cmp->data = tmp;
+			}
+			cmp = cmp->link;
+		}
+		std = std->link;
+	}
+}
+void bubblesort(node* n) {
+	node* std = n->link;
+	node* cmp = NULL;
+	int tmp;
+	while (std != NULL) {
+		while (cmp != ) {
+			cmp = std->link;
+			if (cmp->data>cmp->link->data) {
+				tmp = cmp->data;
+				cmp->data = cmp->link->data;
+				cmp->link->data = tmp;
+			}
+			cmp = cmp->link;
+		}
+		std = std->link;
+	}
+}
+void insertsort(node* n) {
+	node* std = n->link;
+	
+}
+
