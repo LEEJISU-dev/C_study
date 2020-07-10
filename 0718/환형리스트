@@ -1,0 +1,229 @@
+[환형리스트-추가/보기]
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct circlelist {
+	int data;
+	struct circlelist* link;
+}node;
+
+node* head=NULL;
+node* tail = NULL;
+node* inithead();
+void addnode(int data);
+void show();
+
+int main() {
+	head = inithead();
+	addnode(10);
+	addnode(20);
+	addnode(30);
+	addnode(40);
+	addnode(50);
+	show();
+	return 0;
+}
+
+node* inithead() {
+	node* tmp = (node*)malloc(sizeof(node));
+	tmp->data = 0;
+	tmp->link = NULL;
+	return tmp;
+}
+void addnode(int data) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* now = tail;
+	if (head->link == NULL) {//처음 추가부분
+		head->link = newnode;
+		newnode->link = newnode;
+		newnode->data = data;
+	}
+	else{//처음 이외의 추가부분
+		newnode->link = now->link;
+		now->link = newnode;
+		newnode->data = data;
+	}
+	tail = newnode;
+}
+void show() {
+	node* view = head->link;
+	while (view->link != head->link) {//head->link(tail->link도 상관없다
+		printf("%d\n", view->data);
+		view = view->link;
+		if (view == tail) {//안쓰면 tail부분 출력안함
+			printf("%d\n", view->data);
+		}
+	}
+}
+
+[환형리스트-삽입/삭제]
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct circlelist {
+	int data;
+	struct circlelist* link;
+}node;
+
+node* head=NULL;
+node* tail = NULL;
+node* inithead();
+void addnode(int data);
+void insertnode(int data, int fdata);
+void delnode(int data);
+void show();
+
+int main() {
+	head = inithead();
+	int sel = 1, data, fdata;
+	while (sel != 0) {
+		printf("[menu]\n");
+		printf("1. 노드추가 2. 노드삽입 3. 노드삭제 4. 노드보기 0.종료\n");
+		scanf("%d", &sel);
+		switch (sel)
+		{
+		case 1:
+			printf("[노드추가]\n");
+			printf("data:");
+			scanf("%d", &data);
+			addnode(data);
+			break;
+		case 2:
+			printf("[노드삽입]\n");
+			printf("insert data: fdata: ");
+			scanf("%d %d", &data, &fdata);
+			insertnode(data, fdata);
+			break;
+		case 3:
+			printf("[노드삭제]\n");
+			printf("data:");
+			scanf("%d", &data);
+			delnode(data);
+			break;
+		case 4:
+			printf("[노드보기]\n");
+			show();
+			break;
+		case 0:
+			break;
+		}
+	}
+	return 0;
+}
+
+node* inithead() {
+	node* tmp = (node*)malloc(sizeof(node));
+	tmp->data = 0;
+	tmp->link = NULL;
+	return tmp;
+}
+void addnode(int data) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* now = tail;
+	if (head->link == NULL) {//처음 추가부분
+		head->link = newnode;
+		newnode->link = newnode;
+		newnode->data = data;
+	}
+	else{//처음 이외의 추가부분
+		newnode->link = now->link;
+		now->link = newnode;
+		newnode->data = data;
+	}
+	tail = newnode;
+}
+void insertnode(int data, int fdata) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* pre = head;
+	while (pre->link->data != fdata)pre = pre->link;
+		if (pre->data==0) {
+			newnode->link = pre->link;
+			pre->link = newnode;
+			newnode->data = data;
+			tail->link = newnode;
+		}
+		else {
+			newnode->link = pre->link;
+			pre->link = newnode;
+			newnode->data = data;
+		}
+}
+void delnode(int data) {
+	node* delpre = head;
+	node* del = NULL;
+	while (delpre->link->data != data)delpre = delpre->link;
+	if (delpre->data == 0) {
+		del = delpre->link;
+		del->link = delpre->link;
+		free(del);
+		tail->link = delpre->link;
+	}
+	else if (delpre->link ==tail) {
+		del=delpre->link;
+		delpre->link = del->link;
+		tail = delpre;
+		free(del);
+		
+	}
+	else {
+		del = delpre->link;
+		delpre->link = del->link;
+		free(del);
+	}
+}
+void show() {
+	node* view = head->link;
+	while (view->link != head->link) {//head->link(tail->link도 상관없다
+		printf("%d\n", view->data);
+		view = view->link;
+		if (view == tail) {//안쓰면 tail부분 출력안함
+			printf("%d\n", view->data);
+		}
+	}
+}
+
+
+[환형리스트 풀이]
+
+void insertnode(int data, int fdata) {
+	node* new = (node*)malloc(sizeof(node));
+	node* pre = head;
+	while (pre->link->data != fdata)pre = pre->link;
+	if (pre==head) {//new가 head다음에 삽입할 경우
+		new->link = pre->link;
+		pre->link = new;
+		new->data = data;
+		tail->link=new;
+	}
+	else {//나머지 경우
+		new->link = pre->link;
+		pre->link = new;
+		new->data = data;
+	}
+}
+void delnode(int data) {
+	node* pre = head;
+	node* del = NULL;
+	while (pre->link->data != data)pre = pre->link;
+	if (pre==head) {//del이 head다음일 경우
+		del = pre->link;
+		pre->link = del->link;
+		tail->link = del->link;
+		
+	}
+//del이 tail일 경우
+	else if (pre->link ==tail) {//del==tail이 안되는 이유: del=null로 초기화 되어있기 때문
+		del = pre->link;
+		pre->link = del->link;
+		tail = pre;	
+	}
+	else {//나머지 경우
+		del = pre->link;
+		pre->link=del->link;
+	}
+	free(del);
+}
+
+[숙제] 복습
