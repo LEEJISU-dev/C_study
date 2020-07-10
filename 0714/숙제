@@ -1,0 +1,125 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct list {
+	char* name;
+	char gender[3];
+	int age;
+	int phone;
+	int sdate;
+	int month;
+	int edate;
+	struct list* link;
+}node;
+
+node* head;
+node* tail;
+node* inithead();
+void insert();
+void delnode(char name);
+void show();
+long totalday(int y, int m, int d);
+
+int main() {
+	int sy, sm, sd, ey, em, ed;
+	long dates;
+	char name[10];
+	int sel = 1;
+	head = inithead();
+	printf("[MENU]\n");
+	printf("1.회원등록 2. 회원보기 3. 회원삭제 4. 운동날수 0.종료 \n");
+	scanf("%d", &sel);
+	switch (sel)
+	{
+	case 1:
+		printf("[회원등록] \n");
+		insert();
+		break;
+	case 2:
+		printf("[회원보기] \n");
+		show();
+		break;
+	case 3:
+		printf("[회원삭제]\n");
+		printf("삭제할 회원의 이름을 입력하세요\n");
+		printf("이름 :");
+		scanf("%s", name);
+		delnode(name);
+		break;
+	case 4:
+		printf("[운동날수]\n");
+		printf("운동시작일 년월일 입력\n");
+		printf("형식: 1983 5 21) >");
+		scanf("%d %d %d", &sy, &sm, &sd);
+		printf("운동종료일 년월일 입력>");
+		scanf("%d %d %d", &ey, &em, &ed);
+		dates = totalday(ey, em, ed) - totalday(sy, sm, sd);
+		printf("운동날수: %ld일\n", dates);
+		break;
+	case 0:
+		printf("프로그램 종료\n");
+		break;
+
+	}
+
+	return 0;
+}
+
+node* inithead() {
+	node* tmp = (node*)malloc(sizeof(node));
+	tmp->age = 0;
+	tmp->link = NULL;
+	return tmp;
+}
+
+void insert() {
+	node* newnode = (node*)malloc(sizeof(node));
+	node*pre = head;
+	int cnt;
+	for (int i = 0; i<cnt; i++)pre = pre->link;
+	newnode->link = pre->link;
+	pre->link = newnode;
+	printf("이름 :\n");
+	scanf("%s", newnode->name);
+	printf("성별 :\n");
+	scanf("%s", newnode->gender);
+	printf("나이 :\n");
+	scanf("%d", newnode->age);
+	printf("전화번호 :\n");
+	scanf("%d", newnode->phone);
+	newnode->link = NULL;
+	tail = newnode;
+
+}
+void delnode(char name) {
+	node *del = NULL;
+	node* delpre = head;
+	if (strcmp(name, del->name) == 0) delpre = delpre->link;
+	del = delpre->link;
+	delpre->link = del->link;
+	free(del);
+}
+void show() {
+	node* view = head->link;
+	while (view != NULL) {
+		printf("이름: %s\n", view->name);
+		printf("성별: %s\n", view->gender);
+		printf("나이: %d\n", view->age);
+		printf("전화번호: %d\n", view->phone);
+		printf("운동 시작일: %d\n", view->sdate);
+		printf("운동 종료일: %d\n", view->edate);
+		view = view->link;
+	}
+}
+long totalday(int y, int m, int d) {
+	int months[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	int i;
+	long total = 0L;
+	total = (y - 1) * 365L + (y - 1) / 4 - (y - 1) / 100 + (y - 1) / 400;
+	if (!(y % 4) && y % 100 || !(y % 400))
+		months[1]++;
+	for (i = 0; i<m - 1; i++)
+		total += months[i];
+	total += d;
+	return total;
+}
