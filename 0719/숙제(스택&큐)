@@ -1,0 +1,162 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct stack {
+	int data;
+	struct stack* prelink;
+	struct stack* link;
+}stack;
+
+typedef struct queue {
+	int data;
+	struct queue* prelink;//이전
+	struct queue* link;//다음
+}queue;
+
+stack* head = NULL;
+stack* top = NULL;
+stack* sinithead();
+void push(int data);
+int pop();
+
+queue* qhead = NULL;
+queue* front = NULL;
+queue* rear = NULL;
+queue* qinithead();
+void enqueue(int data);
+int dequeue();
+void show();
+
+int main() {
+	head = sinithead();
+	qhead = qinithead();
+	int sel = 1;
+	int stnum = 1;
+	int qunum = 1;
+	while (sel != 0) {
+		printf("menu: 1. push/enqueue 2. pop/dequeue  0. quit");
+		scanf("%d", &sel);
+		switch (sel)
+		{
+		case 1:
+			push(stnum);
+			enqueue(qunum);
+			stnum++;
+			qunum++;
+			show();
+			break;
+		case 2:
+			pop();
+			dequeue();
+			if (stnum == 0) {
+				stnum = 0;
+			}
+			else stnum--;
+			show();
+			break;
+		case 0:
+			printf("종료");
+			break;
+		}
+	}
+	return 0;
+}
+
+stack* sinithead() {
+	stack* tmp = (stack*)malloc(sizeof(stack));
+	tmp->data = 0;
+	tmp->prelink = NULL;
+	tmp->link = NULL;
+	return tmp;
+}
+
+queue* qinithead() {
+	queue* tmp = (queue*)malloc(sizeof(queue));
+	tmp->data = 0;
+	tmp->link = NULL;
+	tmp->prelink = NULL;
+	return tmp;
+}
+void push(int data) {
+	stack* newnode = (stack*)malloc(sizeof(stack));
+	stack* Endnode = top;
+	if (head->link == NULL) {
+		head->link = newnode;
+		newnode->prelink = head;
+		newnode->link = NULL;
+	}
+	else {
+		Endnode->link = newnode;
+		newnode->prelink = Endnode;
+		newnode->link = NULL;
+	}
+	newnode->data = data;
+	top = newnode;
+}
+void enqueue(int data) {
+	queue* newnode = (queue*)malloc(sizeof(queue));
+	queue* Endnode = rear;
+	if (qhead->link == NULL) {
+		qhead->link = newnode;
+		newnode->prelink = qhead;
+		newnode->link = NULL;
+		front = newnode;
+	}
+	else {
+		Endnode->link = newnode;
+		newnode->prelink = Endnode;
+		newnode->link = NULL;
+	}
+	newnode->data = data;
+	rear = newnode;
+}
+int pop() {
+	stack* del = top;
+	int tmp;
+	if (del == NULL) {
+		printf("no more data\n");
+		return;
+	}
+	tmp = del->data;
+	del->prelink->link = NULL;
+	if (del->prelink == head)top = NULL;
+	else top = del->prelink;
+	free(del);
+
+	return tmp;
+}
+int dequeue() {
+	queue* del = front;
+	int tmp;
+	if ((front == NULL) && (rear == NULL)) {
+		printf("no more data\n");
+		return;
+	}
+	tmp = del->data;
+
+	qhead->link = del->link;
+	if (rear == front) {
+		rear = NULL;
+		front = NULL;
+	}
+	else {
+		del->link->prelink = qhead;
+		front = del->link;
+	}
+	free(del);
+
+	return tmp;
+}
+void show() {
+	stack* viewst = top;
+	queue* viewqu = rear;
+
+	if (viewqu == NULL)return;
+	
+
+	while ((viewst != head)&&(viewqu!=qhead)) {
+		printf("stack :%d  queue :%d\n", viewst->data, viewqu->data);
+		viewst = viewst->prelink;
+		viewqu = viewqu->prelink;
+	}
+}
