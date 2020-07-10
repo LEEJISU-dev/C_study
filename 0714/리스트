@@ -1,0 +1,326 @@
+1. 리스트 연습
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct list {
+	int data;
+	struct list* link;
+}node;
+
+node* head=NULL;
+node* tail=NULL;
+node* inithead();
+node* addnode(node*pre, int data);
+node* insertnode(node* pre, int data);
+void delnode(node*pre);
+void show();
+
+
+int main() {
+	node* newnode[5];
+	head = inithead();
+	newnode[0] = addnode(head, 10);
+    newnode[1] = addnode(newnode[0], 20);
+	newnode[2] = addnode(newnode[1], 30);
+    newnode[3] = addnode(newnode[2], 40);
+	newnode[4] = insertnode(newnode[0], 15);
+	show();
+	printf("\n");
+	delnode(newnode[0]);
+	show();
+
+	return 0;
+}
+node* inithead() {
+	node* n = (node*)malloc(sizeof(node));
+	n->data = 0;
+	n->link = NULL;
+	return n;
+}
+node* addnode(node*pre, int data) {
+	node* newnode = (node*)malloc(sizeof(node));
+	pre->link = newnode;
+	newnode->link = NULL;
+	newnode->data = data;
+	tail = newnode;
+
+	return newnode;
+}
+node* insertnode(node* pre, int data){
+	node* newnode = (node*)malloc(sizeof(node));
+    newnode->link=pre->link;
+	pre->link = newnode;
+	newnode->data = data;
+	return newnode;
+}
+void delnode(node* pre) {
+	node* del = pre->link;
+	pre->link=del->link;
+	free(del);
+}
+void show() {
+	node* view = head->link;
+	while (view != NULL) {
+		printf("%d\n", view->data);
+		view = view->link;
+	}
+}
+
+2. 숙제 풀이
+(1)데이터를 찾아 넣는 방법
+void insert(int data, int fdata) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node*pre = head->link;
+	while (pre->data != fdata)pre = pre->link;
+	newnode->link = pre->link;
+	pre->link = newnode;
+	newnode->data = data;
+
+}
+void delnode(int fdata) {
+	node *del = NULL;
+	node* delpre = head;
+	while (delpre->link->data != fdata) delpre;
+		del = delpre->link;
+	delpre->link = del->link;
+	free(del);
+}
+(2)순서로 찾는 방법 - 1 head다음이 첫번째 (넣을때마다 순서를 생각해야한다)
+                    - 2 head가 첫번째 
+void insert(int data, int cnt) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node*pre = head;
+	int i;
+	for(i=0; i<cnt;i++)pre = pre->link;
+	newnode->link = pre->link;
+	pre->link = newnode;
+	newnode->data = data;
+
+}
+
+3. 메뉴
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct list {
+	int data;
+	struct list* link;
+}node;
+
+node* head;
+node* tail;
+node* inithead();
+void addnode(int data);
+void insert(int data, int fdata);
+void delnode(int fdata);
+void show();
+
+
+int main() {
+	int sel = 1, data;
+	int fdata;
+	head = inithead();
+	while (sel !=0) {
+		printf("1.노드추가 2. 노드삽입 3. 노드보기 4. 노드삭제 0.종료 ");
+		scanf("%d", &sel);
+		switch (sel)
+		{
+		case 1:			
+                       printf("data :");			
+                       scanf("%d", &data);			
+                       addnode(data);			
+                       break;
+		case 2:
+			printf("input data, find data: ");
+			scanf("%d %d", &data, &fdata);
+			insert(data, fdata);
+			break;
+		case 3:
+			show();
+			break;
+		case 4:
+			printf("delete data: ");
+			scanf("%d", &data);
+			delnode(data);
+			break;
+		case 0:
+			printf("프로그램 종료\n");
+			break;
+
+		}
+	}
+
+	return 0;
+}
+
+node* inithead() {
+	node* tmp = (node*)malloc(sizeof(node));
+	tmp->data = 0;
+	tmp->link = NULL;
+	return tmp;
+}
+void addnode(int data) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* now = head;
+	while (now->link != NULL) {
+		now = now->link;
+	}
+	now->link = newnode;
+	newnode->link = NULL;
+	newnode->data = data;
+	tail = newnode;
+}
+void insert(int data, int fdata) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node*pre = head;
+	while(pre->link->data!=fdata)pre = pre->link;
+	newnode->link = pre->link;
+	pre->link = newnode;
+	newnode->data = data;
+
+}
+void delnode(int fdata) {
+	node *del = NULL;
+	node* delpre = head;
+	while (delpre->link->data != fdata) delpre=delpre->link;
+		del = delpre->link;
+	delpre->link = del->link;
+	free(del);
+}
+void show() {
+	node* view = head->link;
+	while (view != NULL) {
+		printf("%d\n", view->data);
+		view = view->link;
+	}
+}
+
+4.
+
+구조체 멤버변수
+이름 성별 나이 전화번호
+
+등록함수(노드추가 삽입함수)
+보기함수(노드보기함수)
+삭제함수(노드삭제함수)
+
+
+
+[숙제]
+
+구조체 멤버변수(헬스장 관리프로그램)-리스트
+이름 성별 나이 전화번호 운동시작일 운동개월 운동종료일
+메뉴 :1. 회원등록 2. 회원보기 3. 회원삭제
+
+등록함수(노드추가 삽입함수)
+보기함수(노드보기함수)
+삭제함수(노드삭제함수)
+날짜계산함수(시작일, 개월)
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct list {
+	char name[5];
+	char gender[3];
+	int age;
+	int phone;
+	struct list* link;
+}node;
+
+node* head=NULL;
+node* tail=NULL;
+node* inithead();
+void insert();
+void show();
+void del(char name);
+
+int main() {
+	int sel = 1;
+	int data, fdata;
+
+	while (sel != 0) {
+		printf("Menu : 1. 회원등록 2. 회원보기 3. 회원삭제 0. 종료\n");
+		scanf("%d", &sel);
+		switch (sel)
+		{
+		case 1:
+			
+                      printf("1. 회원 등록\n");
+			
+                      insert(head, 0);
+			
+                      break;
+		case 2:
+			
+                       printf("2. 회원 보기\n");
+			
+                       show();
+			
+                       break;
+		case 3:
+			
+                       printf("3. 회원 삭제\n");
+			
+                       del(0);
+			
+                       break;
+		case 0:
+			
+                       printf("종료합니다\n");
+			
+                       break;
+		}
+	}
+	return 0;
+}
+node* inithead() {
+	node* tmp = (node*)malloc(sizeof(node));
+	printf("이름 :\n");
+	scanf("%s", tmp->name);
+	printf("성별 :\n");
+	scanf("%s", tmp->gender);
+	printf("나이 :\n");
+	scanf("%d", &tmp->age);
+	printf("전화번호 :\n");
+	scanf("%d", &tmp->phone);
+	tmp->link = NULL;
+	return tmp;
+}
+void insert() {//tail=newnode 해주기
+	node* newm = (node*)malloc(sizeof(node));
+	node* pre = head;
+	
+		for (int i = 0; i < cnt; i++) pre = pre->link;
+		newm->link = pre->link;
+		pre->link = newm;
+
+			printf("이름 :\n");
+	scanf("%s", newnode->name);
+	printf("성별 :\n");
+	scanf("%s", newnode->gender);
+	printf("나이 :\n");
+	scanf("%d", &newnode->age);
+	printf("전화번호 :\n");
+	scanf("%d", &newnode->phone);
+	}
+
+void show() {
+	node *view = head->link;
+	while (view != NULL) {
+		printf("이름: %s\n", view->name);
+		printf("성별: %s\n", view->gender);
+		printf("나이: %d\n", &view->age);
+		printf("전화번호: %d\n", &view->phone);
+		view = view->link;
+	}
+}
+void del(char name) {//이름입력받아서 삭제
+	node* del = NULL;
+	node* pre = head;
+	while (pre->link->data!= fm) pre = pre->link;
+	del = pre->link;
+	pre->link = del->link;
+	free(del);
+}
