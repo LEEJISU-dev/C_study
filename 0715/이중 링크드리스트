@@ -1,0 +1,407 @@
+[이중 링크드리스트]
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct dualist {
+	int data;
+	struct dualist* Llink;
+	struct dualist* Rlink;
+
+}node;
+
+node* head = NULL;
+node* tail = NULL;
+node* inithead();
+void addnode(int data);
+void show();
+
+int main() {
+	head = inithead();
+	addnode(10);
+	addnode(20);
+	addnode(30);
+	addnode(40);
+	addnode(50);
+	show();
+	return 0;
+}
+node* inithead() {
+	node* tmp = (node*)malloc(sizeof(node));
+	tmp->data = 0;
+	tmp->Llink = NULL;
+	tmp->Rlink = NULL;
+	tail = tmp;
+	return tmp;
+}
+void addnode(int data) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* now = head;
+	newnode->data = data;
+	while (now->Rlink != NULL)now = now->Rlink;
+	now->Rlink = newnode;
+	newnode->Llink = now;
+	newnode->Rlink = NULL;
+	tail = newnode;
+
+}
+/*//다른방법 - tail
+void addnode(int data) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* now = tail;
+	newnode->data = data;
+	now->Rlink = newnode;
+	newnode->Llink = now;
+	newnode->Rlink = NULL;
+	tail = newnode;
+}*/
+void show() {
+	node* view = head->Rlink;
+	while (view != NULL) {
+		printf("%d\n", view->data);
+		view = view->Rlink;
+	}
+}
+/*//뒤에서 부터 보는 방법
+void show() {
+	node* view = tail->Rlink;
+	while (view != NULL) {//head 값 출력하지 않으려면  nULL대신 head넣기
+		printf("%d\n", view->data);
+		view = view->Llink;
+	}
+}*/
+
+
+
+[링크드리스트 (+삽입/ 삭제)]
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct dualist {
+	int data;
+	struct dualist* Llink;
+	struct dualist* Rlink;
+
+}node;
+
+node* head = NULL;
+node* tail = NULL;
+node* inithead();
+void addnode(int data);
+void insert(int data, int cnt);
+void delnode(int fdata);
+void show();
+
+int main() {
+	head = inithead();
+	addnode(10);
+	addnode(20);
+	addnode(30);
+	addnode(40);
+	addnode(50);
+	insert(15, 2);
+	show();
+	printf("\n");
+	delnode(20);
+	show();
+	return 0;
+}
+node* inithead() {
+	node* tmp = (node*)malloc(sizeof(node));
+	tmp->data = 0;
+	tmp->Llink = NULL;
+	tmp->Rlink = NULL;
+	tail = tmp;
+	return tmp;
+}
+void addnode(int data) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* now = head;
+	newnode->data = data;
+	while (now->Rlink != NULL)now = now->Rlink;
+	now->Rlink = newnode;
+	newnode->Llink = now;
+	newnode->Rlink = NULL;
+	tail = newnode;
+
+}
+/*//다른방법 - tail
+void addnode(int data) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* now = tail;
+	newnode->data = data;
+	now->Rlink = newnode;
+	newnode->Llink = now;
+	newnode->Rlink = NULL;
+	tail = newnode;
+}*/
+void insert(int data, int cnt) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* pre = head;
+	for (int i = 1 ; i < cnt; i++)pre = pre->Rlink;
+	newnode->Rlink = pre->Rlink;
+	pre->Rlink = newnode;
+	newnode->Llink = pre;
+	newnode->data = data;
+
+}
+void delnode(int fdata) {
+	node* del = NULL;
+	node* pre = head;
+	while (pre->Rlink->data != fdata)pre = pre->Rlink;
+	del = pre->Rlink;
+	pre->Rlink = del->Rlink;
+	free(del);
+}
+void show() {
+	node* view = head->Rlink;
+	while (view != NULL) {
+		printf("%d\n", view->data);
+		view = view->Rlink;
+	}
+}
+
+
+[링크드리스트 메뉴]
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct dualist {
+	int data;
+	struct dualist* Llink;
+	struct dualist* Rlink;
+
+}node;
+
+node* head = NULL;
+node* tail = NULL;
+node* inithead();
+void addnode(int data);
+void insert(int data, int cnt);
+void delnode(int fdata);
+void show();
+
+int main() {
+	head = inithead();
+	int sel = 1, data, cnt;
+	while (sel != 0){
+		printf("[MENU]\n");
+		printf("1. 노드추가 2. 노드삽입 3. 노드삭제 4. 노드보기 0. 종료\n");
+		scanf("%d", &sel);
+		switch (sel)
+		{
+		case 1:
+			printf("[노드추가]\n");
+			printf("data :");
+			scanf("%d", &data);
+			addnode(data);
+			printf("\n");
+			break;
+		case 2:
+			printf("[노드삽입]\n");
+			printf("data, cnt :");
+			scanf("%d %d", &data, &cnt);
+			insert(data, cnt);
+			printf("\n");
+			break;
+		case 3:
+			printf("[노드삭제]\n");
+			printf("data :");
+			scanf("%d", &data);
+			delnode(data);
+			printf("\n");
+			break;
+		case 4:
+			printf("[노드보기]\n");
+			show();
+			printf("\n");
+			break;
+		case 0:
+			printf("[종료]\n");
+			break;
+		}
+	}
+	return 0;
+}
+node* inithead() {
+	node* tmp = (node*)malloc(sizeof(node));
+	tmp->data = 0;
+	tmp->Llink = NULL;
+	tmp->Rlink = NULL;
+	tail = tmp;
+	return tmp;
+}
+void addnode(int data) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* now = head;
+	newnode->data = data;
+	while (now->Rlink != NULL)now = now->Rlink;
+	now->Rlink = newnode;
+	newnode->Llink = now;
+	newnode->Rlink = NULL;
+	tail = newnode;
+
+}
+
+void insert(int data, int cnt) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* pre = head;
+	for (int i = 1 ; i < cnt; i++)pre = pre->Rlink;
+	newnode->Rlink = pre->Rlink;
+	pre->Rlink = newnode;
+	newnode->Llink = pre;
+	newnode->data = data;
+
+}
+void delnode(int fdata) {
+	node* del = NULL;
+	node* pre = head;
+	while (pre->Rlink->data != fdata)pre = pre->Rlink;
+	del = pre->Rlink;
+	pre->Rlink = del->Rlink;
+	free(del);
+}
+void show() {
+	node* view = head->Rlink;
+	while (view != NULL) {
+		printf("%d\n", view->data);
+		view = view->Rlink;
+	}
+}
+
+
+[메뉴구성풀이]
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct dualist {
+	int data;
+	struct dualist* Llink;
+	struct dualist* Rlink;
+
+}node;
+
+node* head = NULL;
+node* tail = NULL;
+node* inithead();
+void addnode(int data);
+void insert(int data, int fdata);
+void delnode(int fdata);
+void show();
+void show1();
+
+int main() {
+	head = inithead();
+	int sel = 1, data, fdata;
+	while (sel != 0){
+		printf("[MENU]\n");
+		printf("1. 노드추가 2. 노드삽입 3. 노드삭제 4. 노드보기 0. 종료\n");
+		scanf("%d", &sel);
+		switch (sel)
+		{
+		case 1:
+			printf("[노드추가]\n");
+			printf("data :");
+			scanf("%d", &data);
+			addnode(data);
+			printf("\n");
+			break;
+		case 2:
+			printf("[노드삽입]\n");
+			printf("input data, find data :");
+			scanf("%d %d", &data, &fdata);
+			insert(data, fdata);
+			printf("\n");
+			break;
+		case 3:
+			printf("[노드삭제]\n");
+			printf("data :");
+			scanf("%d", &data);
+			delnode(data);
+			printf("\n");
+			break;
+		case 4:
+			printf("[노드보기]\n");
+			show1();
+			printf("\n");
+			break;
+		case 0:
+			printf("[종료]\n");
+			break;
+		}
+	}
+	return 0;
+}
+node* inithead() {
+	node* tmp = (node*)malloc(sizeof(node));
+	tmp->data = 0;
+	tmp->Llink = NULL;
+	tmp->Rlink = NULL;
+	tail = tmp;
+	return tmp;
+}
+void addnode(int data) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* now = head;
+	newnode->data = data;
+	while (now->Rlink != NULL)now = now->Rlink;
+	now->Rlink = newnode;
+	newnode->Llink = now;
+	newnode->Rlink = NULL;
+	tail = newnode;
+}
+
+void insert(int data, int fdata) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* pre = head;
+	newnode->data = data;
+	while(pre->data!=fdata)pre = pre->Rlink;
+	pre->Rlink->Llink = newnode;
+	newnode->Rlink = pre->Rlink;
+	pre->Rlink = newnode;
+	newnode->Llink = pre;
+}
+
+void delnode(int fdata) {
+	node* del = NULL;
+	node* pre = head;
+	while (pre->Rlink->data != fdata)pre = pre->Rlink;
+	del = pre->Rlink;
+	if (del->Rlink != NULL) {
+		del->Rlink->Llink = pre;
+	}//삭제가 맨뒤가 아닐경우
+	pre->Rlink = del->Rlink;
+	free(del);
+}
+void show() {
+	node* view = head->Rlink;
+	while (view != NULL) {
+		printf("%d\n", view->data);
+		view = view->Rlink;
+
+	}
+}
+void show1() {
+	node* view = tail;
+	while (view != head) {
+		printf("%d\n", view->data);
+		view = view->Llink;
+	}
+}
+
+//
+
+void insertnode(int data, int fdata) {
+	node* newnode = (node*)malloc(sizeof(node));
+	node* pre = head;
+	node* next = NULL;
+	while (pre->Rlink->data != fdata)pre = pre->Rlink;
+	next->Llink = newnode;
+	newnode->Rlink = next;
+	pre->Rlink = newnode;
+	newnode->Llink = pre;
+	newnode->data = data;
+}
+[숙제]
