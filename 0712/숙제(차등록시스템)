@@ -1,0 +1,117 @@
+typedef struct Car {
+	char* name;
+	int age;
+	char gender[3];
+	int phone;
+	char* area;
+	char cartype[20];
+	char carnumber[10];
+}car;
+
+void Regicar(car* c, int cnt);
+void showinfo(car* c, int cnt);
+void editinfo(car* c, int cnt, char* name);
+int main()
+{
+	car c[100];
+	int sel = 1, cnt = 0, subsel;
+	int i;
+	char carnum[10],name[10];
+	char area[10];
+	while (sel != 0) {
+		printf("################\n");
+		printf("# 1. 차 등록   #\n");
+		printf("# 2. 차 조회   #\n");
+		printf("# 3. 정보 수정 #\n");
+		printf("# 0. 종 료     #\n");
+		printf("################\n");
+		printf("Select : ");
+		scanf("%d", &sel);
+		switch (sel) {
+		case 1:
+			Regicar(c, cnt);
+			cnt++;
+			break;
+		case 2:
+			printf("차 조회 : 1. 번호 2. 지역 ");
+			scanf("%d", &subsel);
+			if (subsel == 1) {
+				printf("차 번호 : ");
+				scanf("%s", carnum);
+				for (i = 0; i < cnt; i++) {
+					if (strcmp(carnum, c[i].carnumber) == 0) {
+						showinfo(c, i);
+					}
+				}
+			}
+			else if (subsel == 2) {
+				printf("지역 : ");
+				scanf("%s", area);
+				for (i = 0; i < cnt; i++) {
+					if (strcmp(area, c[i].area) == 0) {
+						showinfo(c, i);
+					}
+				}
+			}
+			break;
+		case 3:
+			printf("이름 : ");
+			scanf("%s", name);
+			editinfo(c, cnt, name);
+			break;
+		case 0:
+			printf("프로그램 종료\n");
+			break;
+		}
+	}
+
+
+
+	return 0;
+}
+void Regicar(car* c, int cnt)
+{
+	int size;
+	printf("(byte)이름 : ");
+	scanf("%d", &size);
+	c[cnt].name = (char*)malloc(sizeof(char)*size);
+	scanf("%s", c[cnt].name);
+	printf("성별 : ");
+	scanf("%s", c[cnt].gender);
+	printf("나이 : ");
+	scanf("%d", &c[cnt].age);
+	printf("전화번호 : ");
+	scanf("%d", &c[cnt].phone);
+	printf("(byte)지역 : ");
+	scanf("%d", &size);
+	c[cnt].area = (char*)malloc(sizeof(char)*size);
+	scanf("%s", c[cnt].area);
+	printf("차종 : ");
+	scanf("%s", c[cnt].cartype);
+	printf("차 번호(00가 0000) : ");
+	scanf("%s", c[cnt].carnumber);
+}
+void showinfo(car* c, int cnt)
+{
+		printf("이름 : %s ", c[cnt].name);
+		printf("성별 : %s ", c[cnt].gender);
+		printf("나이 : %d ", c[cnt].age);
+		printf("전화번호 : %011d\n", c[cnt].phone);
+		printf("지역 : %s ", c[cnt].area);
+		printf("차종 : %s ", c[cnt].cartype);
+		printf("차 번호 : %s\n", c[cnt].carnumber);
+}
+void editinfo(car* c, int cnt,char* name)
+{
+	int i;
+	char sel = 'n';
+	car* edit = NULL;
+	for (i = 0; i < cnt; i++) {
+		if (strcmp(name, c[i].name) == 0) {
+			edit = &c[i];
+			break;
+		}
+	}
+	printf("(byte)이름 : ");
+	scanf("%c", &sel);
+	if(sel=='y') scanf("%*c%s", edit->name);
