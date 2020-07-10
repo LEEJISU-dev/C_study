@@ -1,0 +1,129 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct people {
+	char* name;
+	char gender;
+	int age[3];
+	char num;
+	char area;
+	char car;
+	char cnum;
+}info;
+
+void input(info* people, int cnt);
+void search(info* people, int cnt);
+void modi(info* people, int cnt); 
+
+int main() {
+	info people[100];
+	int sel, size, temp;
+	int cnt = 0;
+
+	while (sel != 0) {
+	printf("#################");
+	printf("# 1. 차 등록    #");
+	printf("# 2. 차 조회    #");
+	printf("# 3. 정보 수정  #");
+	printf("# 0. 종  료     #");
+	printf("#################\n");
+	scanf("%d", &sel);
+
+		switch (sel)
+		{
+		case 1:
+			printf("몇 바이트 할당?");
+			scanf("%d", &size);
+			people[cnt].name = (char*)malloc(sizeof(char)*size);
+			people[cnt].area = (char*)malloc(sizeof(char)*size);
+			input(people, cnt);		cnt++;		break;
+
+		case 2:
+			search(people, cnt);
+			break;
+
+		case 3:
+			modi(people, cnt);
+			break;
+		}
+	}
+}
+void input(info* people, int cnt) {
+	printf("이름 :");
+	scanf("%s", people[cnt].name);
+	printf("성별 :");
+	scanf("%s", people[cnt].gender);
+	printf("나이 :");
+	scanf("%d", &people[cnt].age);
+	printf("전화번호 :");
+	scanf("%s", people[cnt].num);
+	printf("지역 : (00구)");
+	scanf("%s", people[cnt].area);
+	printf("차종 :");
+	scanf("%s", people[cnt].car);
+	printf("차 번호 : (00가0000)");
+	scanf("%s", people[cnt].cnum);
+}
+void search(info* people, int cnt) {
+         int se;
+	int select;
+         char se_area;
+         char se_num;
+	printf("차 조회 : 1. 지역 2. 번호\n");
+         select=getche();
+	switch (select)
+	{
+	case 1:		
+             printf("지역을 입력하세요\n");
+             gets(se_area);
+            for(se=cnt-1;se>-1;se--){
+
+             if(strcmp(se_area, people[se].area)==0{
+            printf("이름 :", people[se].name);
+	printf("성별 :",people[se].gender);
+	printf("나이 :",people[se].age);
+	printf("전화번호 :",people[se].num);
+	printf("차종 :",people[se].car);
+	printf("차 번호 : (00가0000)",people[se].cnum);
+     break;
+
+	case 2:
+          printf("전화번호를 입력하세요\n");
+             gets(se_num);
+            for(se=cnt-1;se>-1;se--){
+
+             if(strcmp(se_num, people[se].num)==0{
+            printf("이름 :", people[se].name);
+	printf("성별 :",people[se].gender);
+	printf("나이 :",people[se].age);
+	printf("지역 :",people[se].area);
+	printf("차종 :",people[se].car);
+	printf("차 번호 : (00가0000)",people[se].cnum);
+		break;
+	}
+
+}
+void modi(info* people, int cnt){
+printf("수정할 차주인의 이름을 입력하세요");
+   scanf("%s", temp);
+    for(int i = 0; i < 6; i++)
+    {
+     if(temp == people[i].name)
+     {
+     
+	printf("정보를 수정합니다.\n");
+	printf("성별 :");
+	scanf("%s", people[cnt].gender);
+	printf("나이 :");
+	scanf("%d", &people[cnt].age);
+	printf("전화번호 :");
+	scanf("%s", people[cnt].num);
+	printf("지역 : (00구)");
+	scanf("%s", people[cnt].area);
+	printf("차종 :");
+	scanf("%s", people[cnt].car);
+	printf("차 번호 : (00가 0000)");
+	scanf("%s", people[cnt].cnum);
+     }
+    }
+
