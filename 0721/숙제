@@ -1,0 +1,166 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct health {
+	char name[30];
+	char sex[5];
+	int phone;
+	char job[50];
+	int price;
+
+	struct health* link;
+	struct health* prelink;
+}hc;
+
+hc* head = NULL;
+hc* tail = NULL;
+hc* inithead();
+void Regi();
+void show();
+void fpeople(char* name);
+void showone(hc* find);
+void conditionshow(int condition);
+
+int main() {
+	char find[30];
+	int sel;
+	int conditionsel;
+
+	head = inithead();
+	do {
+		printf("Menu : 1. 회원등록 2. 모든회원보기 3. 회원검색 및 보기 4. 조건검색(이름성/성별) 0.종료 => ");
+		scanf("%d", &sel);
+		switch (sel) {
+		case 1:
+			Regi();
+			break;
+		case 2:
+			show();
+			break;
+		case 3:
+			printf("이름 : ");
+			scanf("%s", find);
+			fpeople(find);
+			break;
+		case 4:
+			printf("Menu : 1. 성 2. 성별 => ");
+			scanf("%d", &conditionsel);
+			conditionshow(conditionsel);
+			break;
+		}
+	} while (sel != 0);
+
+	return 0;
+}
+
+
+hc* inithead() {
+	hc* tmp = (hc*)malloc(sizeof(hc));
+	tmp->link = NULL;
+	tmp->prelink = NULL;
+	return tmp;
+}
+
+void Regi()
+{
+	hc* newnode = (hc*)malloc(sizeof(hc));
+	hc* now = head;
+	hc* search = NULL;
+	printf("이름 : ");
+	scanf("%s", newnode->name);
+	printf("성별 : ");
+	scanf("%s", newnode->sex);
+	printf("전화번호 : ");
+	scanf("%d", &newnode->phone);
+	printf("직업 : ");
+	scanf("%s", newnode->job);
+	printf("금액 (만원):  ");
+	scanf("%d", &newnode->price);
+	if (head->link == NULL) {
+		newnode->link = now->link;
+		now->link = newnode;
+		newnode->prelink = now;
+		tail = newnode;
+	}
+	else {
+		search = head->link;
+		while (search != NULL) {
+			if (strcmp(newnode->name, search->name) == -1) {
+				break;
+			}
+			search = search->link;
+		}
+		if (search == NULL) {
+			search = tail;
+			search->link = newnode;
+			newnode->prelink = search;
+			newnode->link = NULL;
+			tail = newnode;
+		}
+		else {
+			now = search->prelink;
+			now->link = newnode;
+			newnode->prelink = now;
+			newnode->link = search;
+			search->prelink = newnode;
+		}
+	}
+}
+void show() {
+	hc* view = head->link;
+	while (view != NULL) {
+		printf("이름 : %s  \n", view->name);
+		printf("성별 : %s \n", view->sex);
+		printf("직업 : %s\n", view->job);
+		printf("전화번호 : %d \n", view->phone);
+		printf("금액 : %만원\n", view->price);
+		view = view->link;
+	}
+	printf("\n");
+}
+void fpeople(char* name) {
+	hc* find = head->link;//순차탐색
+	while (find != NULL) {
+		if (strcmp(find->name, name) == 0) {//내가 찾는 이름과 입력이름이 같으면 출력
+			showone(find);
+			break;
+		}
+		find = find->link;
+	}
+}
+void showone(hc* find) {
+	printf("이름 : %s \n", find->name);
+	printf("성별 : %s \n", find->sex);
+	printf("직업 : %s\n", find->job);
+	printf("전화번호 : %d \n", find->phone);
+	printf("금액 : %d만원\n", find->price);
+	printf("\n");
+}
+void conditionshow(int condition) {
+	hc* conditionview = head->link;
+	char str[5];
+	switch (condition) {
+	case 1:
+		printf("성을 입력하세요 ");
+		scanf("%s", str);
+		while (conditionview != NULL) {
+			if (strncmp(str, conditionview->name, 2) == 0) {//한글은 2 byte
+				showone(conditionview);
+			}
+			conditionview = conditionview->link;
+		}
+		break;
+	case 2:
+		printf("성별을 입력하세요 ");
+		scanf("%s", str);
+		while (conditionview != NULL) {
+			if (strncmp(str, conditionview->sex, 2) == 0) {
+				showone(conditionview);
+			}
+			conditionview = conditionview->link;
+		}
+		break;
+	}
+}
