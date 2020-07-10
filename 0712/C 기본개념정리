@@ -1,0 +1,233 @@
+1.
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct people {
+	char* name;
+	char gender;
+	int age[3];
+}info;
+int main() {
+
+	info people[100];
+	int size;
+	int sel;
+	int i=0;
+
+	while (sel != 0) {
+		printf("menu: 1. 회원등록 2. 회원보기 0.종료");
+		scanf("%d", &sel);
+		switch (sel)
+		{
+		case 1:
+		
+					printf("몇 바이트 할당? (종료시 0)");
+					scanf("%d", &size);
+					people[i].name = (char*)malloc(sizeof(char)*size);
+					printf("이름 :");
+					scanf("%s", people[i].name);
+					printf("성별 :");
+					scanf("%s", people[i].gender);
+					printf("나이 :");
+					scanf("%d", &people[i].age);
+				
+                                        i++;
+		                        break;
+
+		case2:
+			for (int cnt = 0; cnt < i; cnt++) {
+				printf("이름:%s 성별: %s 나이:%d\n", people[cnt].age, people[cnt].gender, people[cnt].name);
+			}
+			break;
+		}
+	}
+
+}
+
+2.
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct people {
+	char* name;
+	char gender;
+	int age[3];
+}info;
+
+void input(info* people, int cnt);
+void output(info* people, int cnt);
+int main() {
+
+	info people[100];
+	int size;
+	int sel;
+	int cnt=0;
+
+	while (sel != 0) {
+		printf("menu: 1. 회원등록 2. 회원보기 0.종료");
+		scanf("%d", &sel);
+		switch (sel)
+		{
+		case 1:
+					printf("몇 바이트 할당? (종료시 0)");
+					scanf("%d", &size);
+					people[cnt].name = (char*)malloc(sizeof(char)*size);
+					input(people, cnt);				cnt++;		break;
+
+		case2:
+			output(people, cnt);
+			break;
+		}
+	}
+
+}
+void input(info* people, int cnt) {
+	printf("이름 :");
+	scanf("%s", people[cnt].name);
+	printf("성별 :");
+	scanf("%s", people[cnt].gender);
+	printf("나이 :");
+	scanf("%d", &people[cnt].age);
+};
+void output(info* people, int cnt) {
+
+	for (int i = 0; i<cnt; cnt++) {
+		printf("이름:%s 성별: %s 나이:%d\n", people[cnt].age, people[cnt].gender, people[cnt].name);
+};
+
+//
+info* p;
+	p = (info*)malloc(sizeof(info) * 100); =>구조체 동적메모리 할당
+
+
+[숙제]
+
+구조체 멤버변수 
+이름, 성별, 나이, 전화번호, 지역, 차종, 차번호(00가 0000)
+
+함수
+-차 등록함수, 차 조회함수(지역, 번호)
+-정보수정함수(정보 수정할 구조체변수 찾기, 정보변경)
+
+동적메모리 할당 사용변수  이름, 지역
+
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct people {
+	char* name;
+	char gender;
+	int age[3];
+	char num;
+	char area;
+	char car;
+	char cnum;
+}info;
+
+void input(info* people, int cnt);
+void search(info* people, int cnt);
+void modi(info* people, int cnt); 
+
+int main() {
+	info people[100];
+	int sel, size;
+	int cnt = 0;
+
+	while (sel != 0) {
+	printf("#################");
+	printf("# 1. 차 등록    #");
+	printf("# 2. 차 조회    #");
+	printf("# 3. 정보 수정  #");
+	printf("# 0. 종  료     #");
+	printf("#################\n");
+	scanf("%d", &sel);
+
+		switch (sel)
+		{
+		case 1:
+			printf("몇 바이트 할당?");
+			scanf("%d", &size);
+			people[cnt].name = (char*)malloc(sizeof(char)*size);
+			people[cnt].area = (char*)malloc(sizeof(char)*size);
+			input(people, cnt);		cnt++;		break;
+
+		case 2:
+			search(people, cnt);
+			break;
+
+		case 3:
+			modi(people, cnt);
+			break;
+		}
+	}
+}
+void input(info* people, int cnt) {
+	printf("이름 :");
+	scanf("%s", people[cnt].name);
+	printf("성별 :");
+	scanf("%s", people[cnt].gender);
+	printf("나이 :");
+	scanf("%d", &people[cnt].age);
+	printf("전화번호 :");
+	scanf("%s", people[cnt].num);
+	printf("지역 : (00구)");
+	scanf("%s", people[cnt].area);
+	printf("차종 :");
+	scanf("%s", people[cnt].car);
+	printf("차 번호 : (00가0000)");
+	scanf("%s", people[cnt].cnum);
+}
+void search(info* people, int cnt) {
+	int sw;
+	printf("차 조회 : 1. 차 지역 2. 차 번호\n");
+	switch (sw)
+	{
+	case 1:		printf("차 지역\n");		printf("");		break;
+
+	case 2:
+		break;
+	}
+
+}
+void modi(info* people, int cnt){
+	printf("수정할 차주인의 이름을 입력하세요");
+	scanf("%s", people[cnt].name);
+
+	printf("정보를 수정합니다.\n");
+	printf("이름 :");
+	scanf("%s", people[cnt].name);
+	printf("성별 :");
+	scanf("%s", people[cnt].gender);
+	printf("나이 :");
+	scanf("%d", &people[cnt].age);
+	printf("전화번호 :");
+	scanf("%s", people[cnt].num);
+	printf("지역 : (00구)");
+	scanf("%s", people[cnt].area);
+	printf("차종 :");
+	scanf("%s", people[cnt].car);
+	printf("차 번호 : (00가 0000)");
+	scanf("%s", people[cnt].cnum);
+	}
+
+
+4. 참조 구조체
+
+#include <stdio.h>
+typedef struct myself {
+	int data;
+	struct myself* link;
+}my;
+
+int main() {
+	my a, b, c;
+	a.data = 10;
+	a.link = &b;
+	b.data = 20;
+	b.link = &c;
+	c.data = 30;
+	c.link = NULL;
+
+	printf("a: %d b: %d c:%d", a.data, b.data, c.data);
+	printf("a: %d b: %d c:%d", a.data, a.link->data, c.data);
+	printf("a: %d b: %d c:%d", a.data, a.link->data, a.link->link->data);
+
+	return 0;
+}
