@@ -36,17 +36,17 @@ int main()
 	addnode(6);
 	addnode(8);
 	show();
-	printf("Ã£´Â µ¥ÀÌÅÍ : ");
+	printf("ì°¾ëŠ” ë°ì´í„° : ");
 	scanf("%d", &fdata);
 	index=movetofrontlist(head->link, fdata);
-	printf("Ã£À¸½Ã´Â µ¥ÀÌÅÍ %d´Â %d¹øÂ°¿¡ ÀÖ½À´Ï´Ù.\n", fdata, index);
+	printf("ì°¾ìœ¼ì‹œëŠ” ë°ì´í„° %dëŠ” %dë²ˆì§¸ì— ìˆìŠµë‹ˆë‹¤.\n", fdata, index);
 	show();
 	/*showarr(arr);
-	printf("Ã£´Â µ¥ÀÌÅÍ : ");
+	printf("ì°¾ëŠ” ë°ì´í„° : ");
 	scanf("%d", &fdata);
 	index = movetofront(arr, fdata);
 	//index = transpose(arr, fdata);
-	printf("Ã£À¸½Ã´Â µ¥ÀÌÅÍ %d´Â %d¹øÂ°¿¡ ÀÖ½À´Ï´Ù.\n", fdata, index);
+	printf("ì°¾ìœ¼ì‹œëŠ” ë°ì´í„° %dëŠ” %dë²ˆì§¸ì— ìˆìŠµë‹ˆë‹¤.\n", fdata, index);
 	showarr(arr);*/
 
 
@@ -112,7 +112,7 @@ int movetofront(int* arr, int find)
 	}
 	if (i == 10)
 	{
-		printf("Ã£´Â µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù.\n");
+		printf("ì°¾ëŠ” ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤.\n");
 		return -1;
 	}
 	else return index + 1;
@@ -136,7 +136,7 @@ int movetofrontlist(node* n, int find)
 		cnt++;
 	}
 	if (nfind == NULL) {
-		printf("Ã£´Â µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù.\n");
+		printf("ì°¾ëŠ” ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤.\n");
 		return -1;
 	}
 }
@@ -156,7 +156,7 @@ int transpose(int* arr, int find)
 		}
 	}
 	if (i == 10) {
-		printf("Ã£´Â µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù.\n");
+		printf("ì°¾ëŠ” ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤.\n");
 		return -1;
 	}else return index + 1;
 }
