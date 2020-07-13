@@ -27,7 +27,7 @@ int main()
 		scanf("%d", &sel);
 		switch (sel) {
 		case 1:
-			printf("»óÀ§Æú´õÀÌ¸§ : ");
+			printf("ìƒìœ„í´ë”ì´ë¦„ : ");
 			scanf("%s", find);
 			addtree(root, find);
 			break;
@@ -42,7 +42,7 @@ int main()
 tree* initroot()
 {
 	tree* tmp = (tree*)malloc(sizeof(tree));
-	strcpy(tmp->data,"³»¹®¼­");
+	strcpy(tmp->data,"ë‚´ë¬¸ì„œ");
 	tmp->level = 0;
 	tmp->par = NULL;
 	tmp->chi = NULL;
@@ -55,11 +55,11 @@ void addtree(tree* par, char* find)
 	tree* move = par;
 	move = findtree(move, find);
 	if (move == NULL) {
-		printf("Ã£´Â Æú´õ°¡ ¾ø½À´Ï´Ù\n");
+		printf("ì°¾ëŠ” í´ë”ê°€ ì—†ìŠµë‹ˆë‹¤\n");
 		return;
 	}
 	printf("Find String : %s\n", move->data);
-	printf("ÇÏÀ§Æú´õÀÌ¸§ : ");
+	printf("í•˜ìœ„í´ë”ì´ë¦„ : ");
 	scanf("%s", newtree->data);
 	if (move->chi == NULL) {
 		move->chi = newtree;
@@ -95,7 +95,7 @@ tree* findtree(tree* par, char* find)
 void showtree(tree* n)
 {
 	int i;
-	if(n==root)	printf("%s\n", n->data); //ÀüÀ§
+	if(n==root)	printf("%s\n", n->data); //ì „ìœ„
 	else {
 		for (i = 0; i < n->level; i++) printf("  ");
 		printf("- %s\n", n->data);
