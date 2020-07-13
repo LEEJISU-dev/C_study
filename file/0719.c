@@ -4,13 +4,13 @@
 
 typedef struct stack {
 	int data;
-	struct stack* prelink; //ÀÌÀü
-	struct stack* link;    //´ÙÀ½
+	struct stack* prelink; //ì´ì „
+	struct stack* link;    //ë‹¤ìŒ
 }stack;
 typedef struct queue {
 	int data;
-	struct queue* prelink; //ÀÌÀü
-	struct queue* link;    //´ÙÀ½
+	struct queue* prelink; //ì´ì „
+	struct queue* link;    //
 }queue;
 
 stack* headst = NULL;
