@@ -130,13 +130,13 @@ void selectsortlsit1(node* n)
 		cmp = std->link;
 		while (cmp != NULL) {
 			if (std->data > cmp->data) {
-				//¹Ù²Ù±âÀü »çÀü ÀÛ¾÷
-				printf("»çÀüÀÛ¾÷\n");
+				//ë°”ê¾¸ê¸°ì „ ì‚¬ì „ ìž‘ì—…
+				printf("ì‚¬ì „ìž‘ì—…\n");
 				btmp = std->prelink;
 				ntmp = cmp->link;
 				show();
 				Sleep(1000);
-				//´Ù¸®¿¬°á
+				//ë‹¤ë¦¬ì—°ê²°
 				btmp->link = cmp;
 				cmp->prelink = btmp;
 				cmp->link = std;
@@ -146,7 +146,7 @@ void selectsortlsit1(node* n)
 				show();
 				Sleep(1000);
 
-				//¹Ù²Ù±â
+				//ë°”ê¾¸ê¸°
 				tmpnode = std;
 				std = cmp;
 				cmp = tmpnode;
