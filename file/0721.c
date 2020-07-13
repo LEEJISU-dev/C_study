@@ -137,13 +137,13 @@ void selectsortlsit2(node* n)
 		cmp = std->link;
 		while (cmp != NULL) {
 			if (std->data > cmp->data) {
-				if (cmp == tail) { //ºñ±³´ë»óÀÌ ³¡
+				if (cmp == tail) { //ë¹„êµëŒ€ìƒì´ ë
 					btmp = std->prelink;
 					if (std->link != cmp) {
 						ntmp = std->link;
 						btmp1 = cmp->prelink;
 					}
-					//´Ù¸®¿¬°á
+					//ë‹¤ë¦¬ì—°ê²°
 					btmp->link = cmp;
 					cmp->prelink = btmp;
 					if (std->link != cmp) {
@@ -159,10 +159,10 @@ void selectsortlsit2(node* n)
 					std->link = NULL;
 					cnt = 1;
 				}
-				else if (std->link == cmp) { //ÀÎÁ¢
+				else if (std->link == cmp) { //ì¸ì ‘
 					btmp = std->prelink;
 					ntmp = cmp->link;
-					//´Ù¸®¿¬°á
+					//ë‹¤ë¦¬ì—°ê²°
 					btmp->link = cmp;
 					cmp->prelink = btmp;
 					cmp->link = std;
@@ -171,13 +171,13 @@ void selectsortlsit2(node* n)
 					ntmp->prelink = std;
 					cnt = 0;
 				}
-				else { //No ÀÎÁ¢
-					   //»çÀüÀÛ¾÷
+				else { //No ì¸ì ‘
+					   //ì‚¬ì „ìž‘ì—…
 					btmp = std->prelink;
 					ntmp = std->link;
 					btmp1 = cmp->prelink;
 					ntmp1 = cmp->link;
-					//´Ù¸®¿¬°á
+					//ë‹¤ë¦¬ì—°ê²°
 					btmp->link = cmp;
 					cmp->prelink = btmp;
 					cmp->link = ntmp;
@@ -186,7 +186,7 @@ void selectsortlsit2(node* n)
 					std->prelink = btmp1;
 					std->link = ntmp1;
 					ntmp1->prelink = std;
-					//¹Ù²Ù±â
+					//ë°”ê¾¸ê¸°
 					cnt = 0;
 				}
 				tmpnode = std;
@@ -316,8 +316,8 @@ void quicksort(int* arr, int start, int end)
 			arr[ed] = tmp;
 		}
 	}
-	quicksort(arr, start, st - 1); //Àü¹ÝºÎ
-	quicksort(arr, st + 1, end);   //ÈÄ¹ÝºÎ
+	quicksort(arr, start, st - 1); //ì „ë°˜ë¶€
+	quicksort(arr, st + 1, end);   //í›„ë°˜ë¶€
 }
 void quicksortlist(node* start, node* end)
 {
@@ -336,6 +336,6 @@ void quicksortlist(node* start, node* end)
 			ed->data = tmp;
 		}
 	}
-	quicksortlist(start, st->prelink); //Àü¹ÝºÎ
-	quicksortlist(st->link, end);   //ÈÄ¹ÝºÎ
+	quicksortlist(start, st->prelink); //ì „ë°˜ë¶€
+	quicksortlist(st->link, end);   //í›„ë°˜ë¶€
 }
