@@ -17,7 +17,7 @@ int main()
 	printf("Input : ");
 	scanf("%d", &x);
 	ans=sum(x);
-	printf("1ºÎÅÍ %d±îÁöÀÇ ÇÕÀº %dÀÌ´Ù.\n", x, ans);
+	printf("1ë¶€í„° %dê¹Œì§€ì˜ í•©ì€ %dì´ë‹¤.\n", x, ans);
 	printf("Input : ");
 	scanf("%d", &x);
 	
@@ -49,8 +49,8 @@ int sum(int x) {
 	return sum;
 }
 void oddeven(int x) {
-	if (x % 2 == 0) printf("%d(Àº)´Â Â¦¼öÀÔ´Ï´Ù.\n", x);
-	else printf("%d(Àº)´Â È¦¼öÀÔ´Ï´Ù.\n", x);
+	if (x % 2 == 0) printf("%d(ì€)ëŠ” ì§ìˆ˜ì…ë‹ˆë‹¤.\n", x);
+	else printf("%d(ì€)ëŠ” í™€ìˆ˜ì…ë‹ˆë‹¤.\n", x);
 }
 int calc(int x, int y, char ch) {
 	int ans;
